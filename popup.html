@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Logger</title>
+    <script defer src="popup.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 10px; 
+            width: 600px; /* Set a reasonable width */
+        }
+        ul { list-style-type: none; padding: 0; }
+        li { margin-bottom: 12px; font-size: 14px; }
+        div { word-wrap: break-word; overflow-wrap: break-word; white-space: normal; } /* Ensures URL wraps */
+    </style>
+</head>
+<body>
+    <h2>Logged Visits</h2>
+    <ul id="log-list"></ul>
+</body>
+</html>
