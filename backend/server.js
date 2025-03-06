@@ -56,7 +56,7 @@ const writeLogs = (logs) => {
     try {
         fs.writeFileSync(accessLogFilePath, JSON.stringify(logs, null, 2));
     } catch (error) {
-        console.error("❌ Error writing logs:", error);
+        console.error("Error writing logs:", error);
     }
 };
 
@@ -73,9 +73,8 @@ app.post("/logVisit", (req, res) => {
     try {
         const { 
             timestamp, url, httpMethod, responseStatus, referer, publicIp, geoLocation, 
-            isTorOrVPN, privateIp: clientPrivateIp, serverIp, searchQuery, userEmail, 
-            userAgent, deviceType, sessionId, riskScore, eventType, fileName, fileType, 
-            fileSize, userFilePath 
+            isTorOrVPN, serverIp, searchQuery, userEmail, userAgent, deviceType, 
+            sessionId, riskScore, eventType, fileName, fileType, fileSize, userFilePath 
         } = req.body;
 
         if (!url || !publicIp || !userAgent) {
@@ -91,8 +90,7 @@ app.post("/logVisit", (req, res) => {
             responseStatus,
             referer,
             publicIp,
-            backendPrivateIp: getPrivateIP(),
-            clientPrivateIp,
+            privateIp: getPrivateIP(),
             serverIp,
             geoLocation,
             isTorOrVPN,
@@ -119,11 +117,11 @@ app.post("/logVisit", (req, res) => {
         logs.push(logEntry);
         writeLogs(logs);
 
-        console.log("✅ Log saved:", logEntry);
+        console.log("Log saved:", logEntry);
         res.json({ message: "Log saved", privateIp: getPrivateIP() });
 
     } catch (error) {
-        console.error("❌ Error processing logVisit:", error);
+        console.error("Error processing logVisit:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
@@ -150,7 +148,7 @@ app.post("/uploadFile", upload.single("file"), (req, res) => {
         logs.push(logEntry);
         writeLogs(logs);
 
-        console.log("✅ Upload Log saved:", logEntry);
+        console.log("Upload Log saved:", logEntry);
         res.json({
             message: "File uploaded successfully",
             serverFilePath: logEntry.serverFilePath,
@@ -158,7 +156,7 @@ app.post("/uploadFile", upload.single("file"), (req, res) => {
         });
 
     } catch (error) {
-        console.error("❌ Error processing file upload:", error);
+        console.error("Error processing file upload:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
@@ -169,12 +167,12 @@ app.get("/getLogs", (req, res) => {
         const logs = readLogs();
         res.json(logs);
     } catch (error) {
-        console.error("❌ Error fetching logs:", error);
+        console.error("Error fetching logs:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`✅ Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
