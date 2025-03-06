@@ -8,7 +8,14 @@ const useragent = require("useragent");
 const app = express();
 const PORT = 3000;
 
-app.use(cors());
+// CORS Configuration
+const corsOptions = {
+    origin: "*", // Allow all origins
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type"
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Ensure logs and uploads directories exist
@@ -171,6 +178,3 @@ app.get("/getLogs", (req, res) => {
 app.listen(PORT, () => {
     console.log(`✅ Server running on http://localhost:${PORT}`);
 });
-
-
-//working
